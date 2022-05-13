@@ -29,16 +29,41 @@ public class Chessboard {
         }
     }
 
+    public void move(int currentX, int currentY, int newX, int newY) {
+        Piece currentPiece = board[currentX][currentY];
+        if (board[newX][newY] == null) {
+            try {
+                currentPiece.move(newX, newY);
+                board[currentX][currentY] = null;
+                board[newX][newY] = currentPiece;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        } else {
+            if (currentPiece.isPlayerOne() != board[newX][newY].isPlayerOne()) {
+                try {
+                    if (currentPiece instanceof Pawn) {
+                        ((Pawn) currentPiece).kill(newX, newY);
+                    } else {
+                        currentPiece.move(newX, newY);
+                    }
+                    board[currentX][currentY] = null;
+                    board[newX][newY] = currentPiece;
+                } catch (IllegalArgumentException e) {
+                    System.out.println(e.getMessage());
+                }
+            } else {
+                throw new IllegalArgumentException();
+            }
+        }
+    }
+
     @Override
     public String toString() {
         String out = "";
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                if (board[i][j] == null) {
-                    out += "\t";
-                } else {
-                    out += board[i][j].toString() + "\t";
-                }
+                out += String.format("%8s \t", board[i][j] == null ? "--------" : board[i][j].toString());
             }
             out += "\n";
         }

@@ -12,4 +12,9 @@ public class Knight extends Piece{
             changePos(newX, newY);
         }
     }
+
+    @Override
+    public String toString() {
+        return "Knight" + (isPlayerOne() ? 1 : 2);
+    }
 }

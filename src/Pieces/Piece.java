@@ -39,11 +39,6 @@ public abstract class Piece{
     }
 
     @Override
-    public String toString() {
-        return "Piece{" +
-                "xPos=" + xPos +
-                ", yPos=" + yPos +
-                ", playerOne=" + playerOne +
-                '}';
-    }
+    abstract public String toString();
+    abstract public void move(int newX, int newY) throws IllegalArgumentException;
 }

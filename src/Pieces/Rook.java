@@ -12,4 +12,9 @@ public class Rook extends Piece{
             changePos(newX, newY);
         }
     }
+
+    @Override
+    public String toString() {
+        return "Rook" + (isPlayerOne() ? 1 : 2);
+    }
 }
