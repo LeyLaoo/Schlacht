@@ -2,7 +2,7 @@ package Pieces;
 
 //Königin
 public class Queen extends Piece{
-    Queen(int startX, int startY, boolean playerOne){
+    public Queen(int startX, int startY, boolean playerOne){
         super(startX, startY, playerOne);
     }
 

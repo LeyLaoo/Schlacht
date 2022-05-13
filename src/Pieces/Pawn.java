@@ -2,7 +2,7 @@ package Pieces;
 
 //Tower
 public class Pawn extends Piece{
-    Pawn(int startX, int startY, boolean playerOne){
+    public Pawn(int startX, int startY, boolean playerOne){
         super(startX, startY, playerOne);
     }
 

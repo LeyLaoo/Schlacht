@@ -2,7 +2,7 @@ package Pieces;
 
 //Läufer
 public class Bishop extends Piece{
-    Bishop(int startX, int startY, boolean playerOne){
+    public Bishop(int startX, int startY, boolean playerOne){
         super(startX, startY, playerOne);
     }
 

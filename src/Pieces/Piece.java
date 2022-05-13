@@ -37,4 +37,13 @@ public abstract class Piece{
     public boolean isPlayerTwo(){
         return !playerOne;
     }
+
+    @Override
+    public String toString() {
+        return "Piece{" +
+                "xPos=" + xPos +
+                ", yPos=" + yPos +
+                ", playerOne=" + playerOne +
+                '}';
+    }
 }

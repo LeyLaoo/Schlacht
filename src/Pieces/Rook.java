@@ -2,7 +2,7 @@ package Pieces;
 
 //Turm
 public class Rook extends Piece{
-    Rook(int startX, int startY, boolean playerOne){
+    public Rook(int startX, int startY, boolean playerOne){
         super(startX, startY, playerOne);
     }
 

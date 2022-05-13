@@ -2,7 +2,7 @@ package Pieces;
 
 //Pferd
 public class Knight extends Piece{
-    Knight(int startX, int startY, boolean playerOne){
+    public Knight(int startX, int startY, boolean playerOne){
         super(startX, startY, playerOne);
     }
 
