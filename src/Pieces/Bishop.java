@@ -6,12 +6,18 @@ public class Bishop extends Piece{
         super(startX, startY, playerOne);
     }
 
-    public void move(int newX, int newY) throws IllegalArgumentException{
+    public void move(int newX, int newY, Piece[][] board) throws IllegalArgumentException{
         int[] pos = getPos();
-        for(int i = -8; i < 8; i++){
-            if(pos[0] +i == newX && pos[1] +i == newY){
-                move(newX, newY);
+        if(Math.abs(pos[0] - newX) == Math.abs(pos[1]-newY)){
+            int xMoveDir = (pos[0] - newX) < 0 ? 1 : -1;
+            int yMoveDir = (pos[1] - newY) < 0 ? 1 : -1;
+            for(int i = 1; i < Math.abs(pos[0] - newX); i++) {
+                if(board[pos[0]+i * xMoveDir][pos[1]+i * yMoveDir] != null){
+                    throw new IllegalStateException("Something is in the way at "+ (pos[0]+i * xMoveDir) + "|"+(pos[1]+i * yMoveDir));
+                }
             }
+        }else{
+            throw new IllegalArgumentException("Illegal move-not diagonal");
         }
     }
 

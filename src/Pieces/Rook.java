@@ -6,9 +6,15 @@ public class Rook extends Piece{
         super(startX, startY, playerOne);
     }
 
-    public void move(int newX, int newY) throws IllegalArgumentException{
+    public void move(int newX, int newY, Piece[][] board) throws IllegalArgumentException, IllegalStateException {
         int[] pos = getPos();
-        if(pos[0] == newX || pos[1] == newY){
+        int xMoveDir = (pos[0] - newX) < 0 ? 1 : -1;
+        int yMoveDir = (pos[1] - newY) < 0 ? 1 : -1;
+        if (pos[0] == newX) {
+            Piece.checkInLine(pos[0], pos[1], newY, xMoveDir, board);
+            changePos(newX, newY);
+        } else if( pos[1] == newY){
+            Piece.checkInLine(pos[0], pos[1], newX, yMoveDir, board);
             changePos(newX, newY);
         }
     }

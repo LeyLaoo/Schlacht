@@ -34,11 +34,15 @@ public abstract class Piece{
         return playerOne;
     }
 
-    public boolean isPlayerTwo(){
-        return !playerOne;
+    protected static void checkInLine(int posStatic, int posChanging, int newCoordinate, int moveDir, Piece[][] board){
+        for ( int i = 1; i < Math.abs(posChanging - newCoordinate); i++){
+            if( board[posStatic][posChanging + i*moveDir] != null){
+                throw new IllegalStateException("Something is in the way at " + posStatic + "|" + (posChanging+i*moveDir));
+            }
+        }
     }
 
     @Override
     abstract public String toString();
-    abstract public void move(int newX, int newY) throws IllegalArgumentException;
+    abstract public void move(int newX, int newY, Piece[][] board) throws IllegalArgumentException, IllegalStateException;
 }

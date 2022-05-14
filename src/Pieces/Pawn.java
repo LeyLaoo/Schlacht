@@ -1,5 +1,6 @@
 package Pieces;
 
+
 //Tower
 public class Pawn extends Piece {
     public Pawn(int startX, int startY, boolean playerOne) {
@@ -23,20 +24,20 @@ public class Pawn extends Piece {
         }
     }
 
-    public void move(int newX, int newY) throws IllegalArgumentException {
+    public void move(int newX, int newY, Piece[][] board) throws IllegalArgumentException {
         int[] pos = getPos();
         if (isPlayerOne()) {
-            if (pos[0] - 1 == newX && pos[1] == newY) {
+            if (pos[1] - 1 == newY && pos[0] == newX) {
                 changePos(newX, newY);
-            } else if (pos[0] == 6 && pos[0] - 2 == newX && pos[1] == newY) {
+            } else if (pos[1] == 6 && pos[1] - 2 == newY && pos[0] == newX) {
                 changePos(newX, newY);
             } else {
                 throw new IllegalArgumentException("Illegal move");
             }
         } else {
-            if (pos[0] + 1 == newX && pos[1] == newY) {
+            if (pos[1] + 1 == newY && pos[0] == newX) {
                 changePos(newX, newY);
-            } else if (pos[0] == 1 && pos[0] + 2 == newX && pos[1] == newY) {
+            } else if (pos[1] == 1 && pos[1] + 2 == newY && pos[0] == newX) {
                 changePos(newX, newY);
             } else {
                 throw new IllegalArgumentException("Illegal move");

@@ -6,7 +6,7 @@ public class Knight extends Piece{
         super(startX, startY, playerOne);
     }
 
-    public void move(int newX, int newY) throws IllegalArgumentException{
+    public void move(int newX, int newY, Piece[][] board) throws IllegalArgumentException{
         int[] pos = getPos();
         if((pos[0] + 2 == newX || pos[0] -2 == newX) && (pos[1] +1 == newY || pos[1] - 1 == newY)){
             changePos(newX, newY);
