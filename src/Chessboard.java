@@ -3,6 +3,10 @@ import Pieces.*;
 public class Chessboard {
     Piece[][] board = new Piece[8][8];  //x and y
 
+    /**
+     * Creates a chessboard with the standard settings
+     * @author Uhlig Bastian
+     */
     Chessboard() {
         board[0][0] = new Rook(0, 0, false);
         board[1][0] = new Bishop(1, 0, false);
@@ -29,6 +33,16 @@ public class Chessboard {
         }
     }
 
+    /**
+     * Moves a chesspiece to a new location if possible
+     * @param currentX  the current X Position of the piece you want to move
+     * @param currentY  the current Y Position of the piece you want to move
+     * @param newX      the X position of where you want to move your piece
+     * @param newY      the Y position of where you want to move your piece
+     * @throws IllegalArgumentException throws this exception if the move is not a valid move
+     * @throws IllegalStateException    throws this exception if the move is blocked my another pawn
+     * @author Uhlig Bastian
+     */
     public void move(int currentX, int currentY, int newX, int newY) throws IllegalArgumentException, IllegalStateException {
         Piece currentPiece = board[currentX][currentY];
         if (currentPiece == null) {
@@ -46,10 +60,13 @@ public class Chessboard {
                 } else {
                     currentPiece.move(newX, newY, board);
                 }
+                if(board[newX][newY] instanceof King){
+                    //Checkmate TODO
+                }
                 board[currentX][currentY] = null;
                 board[newX][newY] = currentPiece;
             } else {
-                throw new IllegalArgumentException("Cant kill own Pawn");
+                throw new IllegalStateException("Cant kill own Pawn");
             }
         }
     }

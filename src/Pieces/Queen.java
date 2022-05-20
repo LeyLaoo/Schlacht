@@ -6,6 +6,15 @@ public class Queen extends Piece {
         super(startX, startY, playerOne);
     }
 
+    /**
+     * moves the queen to the new position
+     * @param newX  the new X position of the queen
+     * @param newY  the new Y position of the queen
+     * @param board the current state of the board
+     * @throws IllegalArgumentException throws this exception if the move isn't allowed
+     * @throws IllegalStateException    throws this exception if something is in the way
+     * @author Uhlig Bastian
+     */
     public void move(int newX, int newY, Piece[][] board) throws IllegalArgumentException, IllegalStateException {
         int[] pos = getPos();
         //Checks the move in a row
@@ -33,6 +42,6 @@ public class Queen extends Piece {
 
     @Override
     public String toString() {
-        return "Queen" + (isPlayerOne() ? 1 : 2);
+        return "Queen " + (isPlayerOne() ? 1 : 2);
     }
 }
