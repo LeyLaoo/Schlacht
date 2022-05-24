@@ -32,6 +32,17 @@ public class Chessboard {
             board[i][6] = new Pawn(i, 6, true);
         }
     }
+    Chessboard(int numOfBlockedFields){
+        this();
+        while(numOfBlockedFields > 0){
+            int randomX = (int) (Math.random()* 8);
+            int randomY = (int) (Math.random() * (5 - 2 + 1) + 2);
+            if(board[randomX][randomY] == null){
+                board[randomX][randomY] = new Closed(randomX, randomY);
+                numOfBlockedFields--;
+            }
+        }
+    }
 
     /**
      * Moves a chess piece to a new location if possible
@@ -47,6 +58,9 @@ public class Chessboard {
         Piece currentPiece = board[currentX][currentY];
         if (currentPiece == null) {
             return;
+        }
+        if ( board[newX][newY] instanceof Closed || currentPiece instanceof Closed) {
+            throw new IllegalStateException("Closed Place");
         }
         if (board[newX][newY] == null) {
             currentPiece.move(newX, newY, board);
@@ -65,7 +79,7 @@ public class Chessboard {
                 }
                 board[currentX][currentY] = null;
                 board[newX][newY] = currentPiece;
-            } else {
+            }else{
                 throw new IllegalStateException("Cant kill own Pawn");
             }
         }

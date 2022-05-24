@@ -25,6 +25,6 @@ public class King extends Piece{
 
     @Override
     public String toString() {
-        return "King" + (isPlayerOne() ? 1 : 2);
+        return "King " + (isPlayerOne() ? 1 : 2);
     }
 }

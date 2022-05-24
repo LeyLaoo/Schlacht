@@ -12,5 +12,15 @@ public class Main {
         System.out.println(board);
         board.move(7,3,6,4);
         System.out.println(board);
+
+        Chessboard newboard = new Chessboard(3);
+        System.out.println(newboard);
+        for(int i = 0; i < 8; i++){
+            newboard.move(i, 1, i ,2);
+            System.out.println(newboard);
+            newboard.move(i, 6, i ,5);
+            System.out.println(newboard);
+        }
+        System.out.println(newboard);
     }
 }

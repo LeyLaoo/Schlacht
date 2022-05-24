@@ -32,6 +32,6 @@ public class Rook extends Piece{
 
     @Override
     public String toString() {
-        return "Rook" + (isPlayerOne() ? 1 : 2);
+        return "Rook " + (isPlayerOne() ? 1 : 2);
     }
 }
