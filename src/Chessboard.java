@@ -34,7 +34,7 @@ public class Chessboard {
     }
 
     /**
-     * Moves a chesspiece to a new location if possible
+     * Moves a chess piece to a new location if possible
      * @param currentX  the current X Position of the piece you want to move
      * @param currentY  the current Y Position of the piece you want to move
      * @param newX      the X position of where you want to move your piece

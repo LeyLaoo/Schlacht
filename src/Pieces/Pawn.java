@@ -16,13 +16,13 @@ public class Pawn extends Piece {
     public void kill(int newX, int newY) throws IllegalArgumentException {
         int[] pos = getPos();
         if (isPlayerOne()) {
-            if (pos[0] - 1 == newX && (pos[1] + 1 == newY || pos[1] - 1 == newY)) {
+            if (pos[1] - 1 == newY && (pos[0] + 1 == newX || pos[0] - 1 == newX)) {
                 changePos(newX, newY);
             } else {
                 throw new IllegalArgumentException("Illegal move");
             }
         } else {
-            if (pos[0] + 1 == newX && (pos[1] + 1 == newY || pos[1] - 1 == newY)) {
+            if (pos[1] + 1 == newY && (pos[0] + 1 == newX || pos[0] - 1 == newX)) {
                 changePos(newX, newY);
             } else {
                 throw new IllegalArgumentException("Illegal move");
