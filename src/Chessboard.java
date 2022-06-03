@@ -93,6 +93,11 @@ public class Chessboard {
         return out;
     }
 
+    /**
+     * Creates the Chessboard
+     * @param stage
+     */
+
     public void start(Stage stage) {
         stage.setTitle("Schachbrett");
         stage.setMinWidth(600);
