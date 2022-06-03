@@ -16,7 +16,7 @@ public class Closed extends Piece{
     }
 
     @Override
-    public void move(int newX, int newY, Piece[][] board) throws IllegalArgumentException, IllegalStateException {
-        throw new IllegalArgumentException("Not movable");
+    public void move(int newX, int newY, Piece[][] board) throws IllegalMoveException {
+        throw new IllegalMoveException();
     }
 }

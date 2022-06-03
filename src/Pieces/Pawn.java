@@ -10,22 +10,22 @@ public class Pawn extends Piece {
      * tries to kill the piece on the new position
      * @param newX  the new X position of the pawn
      * @param newY  the new Y position of the pawn
-     * @throws IllegalArgumentException throws this exception if the move isn't allowed
+     * @throws IllegalMoveException throws this exception if the move isn't allowed
      * @author Uhlig Bastian
      */
-    public void kill(int newX, int newY) throws IllegalArgumentException {
+    public void kill(int newX, int newY) throws IllegalMoveException {
         int[] pos = getPos();
         if (isPlayerOne()) {
             if (pos[1] - 1 == newY && (pos[0] + 1 == newX || pos[0] - 1 == newX)) {
                 changePos(newX, newY);
             } else {
-                throw new IllegalArgumentException("Illegal move");
+                throw new IllegalMoveException();
             }
         } else {
             if (pos[1] + 1 == newY && (pos[0] + 1 == newX || pos[0] - 1 == newX)) {
                 changePos(newX, newY);
             } else {
-                throw new IllegalArgumentException("Illegal move");
+                throw new IllegalMoveException();
             }
         }
     }
@@ -35,11 +35,11 @@ public class Pawn extends Piece {
      * @param newX  the new X position of the pawn
      * @param newY  the new Y position of the pawn
      * @param board the current state of the board
-     * @throws IllegalArgumentException throws this exception if the move isn't allowed
+     * @throws IllegalMoveException throws this exception if the move isn't allowed
      * @throws IllegalStateException    throws this exception if something is in the way
      * @author Uhlig Bastian
      */
-    public void move(int newX, int newY, Piece[][] board) throws IllegalArgumentException, IllegalStateException {
+    public void move(int newX, int newY, Piece[][] board) throws IllegalMoveException, IllegalArgumentException, IllegalStateException {
         int[] pos = getPos();
         if (isPlayerOne()) {
             if (pos[1] - 1 == newY && pos[0] == newX) {

@@ -1,14 +1,4 @@
 import Pieces.*;
-import javafx.geometry.Insets;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class Chessboard {
     Piece[][] board = new Piece[8][8];  //x and y
@@ -43,20 +33,35 @@ public class Chessboard {
         }
     }
 
+    Chessboard(int numOfBlockedFields){
+        this();
+        while(numOfBlockedFields > 0){
+            int randomX = (int) (Math.random()* 8);
+            int randomY = (int) (Math.random() * (5 - 2 + 1) + 2);
+            if(board[randomX][randomY] == null){
+                board[randomX][randomY] = new Closed(randomX, randomY);
+                numOfBlockedFields--;
+            }
+        }
+    }
+
     /**
      * Moves a chesspiece to a new location if possible
      * @param currentX  the current X Position of the piece you want to move
      * @param currentY  the current Y Position of the piece you want to move
      * @param newX      the X position of where you want to move your piece
      * @param newY      the Y position of where you want to move your piece
-     * @throws IllegalArgumentException throws this exception if the move is not a valid move
+     * @throws IllegalMoveException throws this exception if the move is not a valid move
      * @throws IllegalStateException    throws this exception if the move is blocked my another pawn
      * @author Uhlig Bastian
      */
-    public void move(int currentX, int currentY, int newX, int newY) throws IllegalArgumentException, IllegalStateException {
+    public void move(int currentX, int currentY, int newX, int newY) throws IllegalMoveException, IllegalStateException {
         Piece currentPiece = board[currentX][currentY];
         if (currentPiece == null) {
             return;
+        }
+        if ( board[newX][newY] instanceof Closed || currentPiece instanceof Closed) {
+            throw new IllegalStateException("Closed Place");
         }
         if (board[newX][newY] == null) {
             currentPiece.move(newX, newY, board);
@@ -76,7 +81,7 @@ public class Chessboard {
                 board[currentX][currentY] = null;
                 board[newX][newY] = currentPiece;
             } else {
-                throw new IllegalStateException("Cant kill own Pawn");
+                throw new IllegalMoveException("Cant kill own Pawn");
             }
         }
     }
@@ -91,46 +96,5 @@ public class Chessboard {
             out += "\n";
         }
         return out;
-    }
-
-    public void start(Stage stage) {
-        stage.setTitle("Schachbrett");
-        stage.setMinWidth(600);
-        stage.setMinHeight(600);
-        stage.setResizable(false);
-        stage.initStyle(StageStyle.UNDECORATED);
-
-
-        GridPane gridPane = new GridPane();
-        Scene scene = new Scene(gridPane, 600, 600); // w, h
-        stage.setScene(scene);
-        gridPane.setBackground(new Background(new BackgroundFill(Color.GREEN, new CornerRadii(0), Insets.EMPTY)));
-
-        gridPane.setHgap(0);
-        gridPane.setVgap(   0);
-        gridPane.setPadding(new Insets(10)); // top, right, bottom, left
-
-        Button[][] button = new Button[8][8];
-
-        for(int i = 0; i < button.length; i++){
-            for(int j = 0; j < button.length; j++){
-                button[i][j] = new Button();
-                button[i][j].setPrefSize(75,75);
-                gridPane.add(button[i][j], i, j);
-
-                if((i + j) % 2 == 1){
-                    button[i][j].setStyle("-fx-background-color: BLACK");
-                } else{
-                    button[i][j].setStyle("-fx-background-color: WHITE");
-                }
-            }
-        }
-
-
-        //GridPane.setValignment(button1, VPos.CENTER);
-        //GridPane.setHalignment(button4, HPos.CENTER);
-
-        gridPane.setGridLinesVisible(true); // uncomment the line to see the grid
-        stage.show();
     }
 }

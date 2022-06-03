@@ -11,15 +11,15 @@ public class King extends Piece{
      * @param newX  the new X position of the king
      * @param newY  the new Y position of the king
      * @param board the current state of the board
-     * @throws IllegalArgumentException throws this exception if the move isn't allowed
+     * @throws IllegalMoveException throws this exception if the move isn't allowed
      * @author Uhlig Bastian
      */
-    public void move(int newX, int newY, Piece[][] board) throws IllegalArgumentException{
+    public void move(int newX, int newY, Piece[][] board) throws IllegalMoveException{
         int[] pos = getPos();
         if(pos[0] - newX >= 1 && pos[0] - newX <= -1 && pos[1] - newY >= 1 && pos[1] - newY <= -1){
             changePos(newX, newY);
         }else{
-            throw new IllegalArgumentException("Illegal move");
+            throw new IllegalMoveException("Illegal move");
         }
     }
 

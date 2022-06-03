@@ -27,15 +27,15 @@ public abstract class Piece{
      * Changes the position of the piece
      * @param newX  X position of where the piece is moved
      * @param newY  Y position of where the piece is moved
-     * @throws IllegalArgumentException throws this exception when the new position isn't on the board
+     * @throws IllegalStateException throws this exception when the new position isn't on the board
      * @author Uhlig Bastian
      */
-    protected void changePos (int newX, int newY) throws IllegalArgumentException{
+    protected void changePos (int newX, int newY) throws IllegalStateException{
         if(newX < 8 && newX >= 0 && newY < 8 && newY >= 0){
             this.xPos = newX;
             this.yPos = newY;
         }else{
-            throw new IllegalArgumentException(newX + " or " + newY + " are not on the chess table");
+            throw new IllegalStateException(newX + " or " + newY + " are not on the chess table");
         }
     }
 
@@ -75,5 +75,5 @@ public abstract class Piece{
 
     @Override
     abstract public String toString();
-    abstract public void move(int newX, int newY, Piece[][] board) throws IllegalArgumentException, IllegalStateException;
+    abstract public void move(int newX, int newY, Piece[][] board) throws IllegalMoveException, IllegalArgumentException, IllegalStateException;
 }
