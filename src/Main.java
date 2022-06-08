@@ -1,7 +1,11 @@
 import Pieces.IllegalMoveException;
+import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.effect.Glow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -10,7 +14,10 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-public class Main {
+public class Main extends Application {
+    int firstX = -1, firstY = -1;
+    boolean playerOneTurn = true;
+
     public static void main(String[] args) {
         Chessboard board = new Chessboard();
         System.out.println(board);
@@ -25,11 +32,13 @@ public class Main {
             System.out.println(board);
             board.move(7, 3, 6, 4);
             System.out.println(board);
+            board.move(2, 0, 1, 2);
+            System.out.println(board);
         } catch (IllegalMoveException e) {
             System.out.println(e.getMessage());
         }
         Chessboard newboard = new Chessboard(3);
-        System.out.println(newboard);
+      /*  System.out.println(newboard);
         try {
             for (int i = 0; i < 8; i++) {
                 newboard.move(i, 1, i, 2);
@@ -37,10 +46,12 @@ public class Main {
                 newboard.move(i, 6, i, 5);
                 System.out.println(newboard);
             }
-        }catch(IllegalMoveException | IllegalStateException e){
+        } catch (IllegalMoveException | IllegalStateException e) {
             System.out.println(e.getMessage());
         }
-        System.out.println(newboard);
+        System.out.println(newboard);*/
+        launch(args);
+        System.out.println("UwU");
     }
 
 
@@ -63,6 +74,8 @@ public class Main {
 
         Button[][] button = new Button[8][8];
 
+        Chessboard board = new Chessboard();
+
         for (int i = 0; i < button.length; i++) {
             for (int j = 0; j < button.length; j++) {
                 button[i][j] = new Button();
@@ -70,12 +83,17 @@ public class Main {
                 gridPane.add(button[i][j], i, j);
 
                 if ((i + j) % 2 == 1) {
-                    button[i][j].setStyle("-fx-background-color: BLACK");
+                    button[i][j].setStyle("-fx-background-color: DARKGREY");
                 } else {
-                    button[i][j].setStyle("-fx-background-color: WHITE");
+                    button[i][j].setStyle("-fx-background-color: LIGHTGREY");
                 }
+                int finalJ = j;
+                int finalI = i;
+                button[i][j].setOnAction(actionEvent -> movePawn(finalI, finalJ, board, button));
             }
         }
+
+        updateButtons(button, board);
 
 
         //GridPane.setValignment(button1, VPos.CENTER);
@@ -83,5 +101,63 @@ public class Main {
 
         gridPane.setGridLinesVisible(true); // uncomment the line to see the grid
         stage.show();
+    }
+
+    private Button[][] updateButtons(Button[][] button, Chessboard board) {
+        for (int i = 0; i < button.length; i++) {
+            for (int j = 0; j < button[i].length; j++) {
+                String path = ".\\Chesspieces\\";
+                try {
+                    if (board.isPlayerOne(i, j)) {
+                        path += "White\\White" + board.getType(i, j) + ".png";
+                    } else {
+                        path += "Black\\Black" + board.getType(i, j) + ".png";
+                    }
+                    Image image = new Image(path);
+                    ImageView view = new ImageView(image);
+                    view.setFitHeight(50);
+                    view.setFitWidth(50);
+                    button[i][j].setGraphic(view);
+                } catch (IllegalStateException e) {
+                    button[i][j].setGraphic(null);
+                }
+                if(firstX == i && firstY == j){
+                    button[i][j].setEffect(new Glow(1));
+                }else{
+                    button[i][j].setEffect(null);
+                }
+            }
+        }
+        return button;
+    }
+
+    private void movePawn(int x, int y, Chessboard board, Button[][] buttons) {
+        if (firstX == -1) {
+            try {
+                if (board.isPlayerOne(x, y) != playerOneTurn) {
+                    firstX = -1;
+                    firstY = -1;
+                    return;
+                }
+            } catch (IllegalStateException e) {
+                System.out.println(e.getMessage());
+                return;
+            }
+            firstX = x;
+            firstY = y;
+        } else {
+            try {
+                System.out.println(firstX + " " + firstY + " , " + x + " " + y);
+                board.move(firstX, firstY, x, y);
+                firstX = -1;
+                firstY = -1;
+                playerOneTurn = !playerOneTurn;
+            } catch (IllegalMoveException | IllegalArgumentException e ) {
+                firstX = -1;
+                firstY = -1;
+                System.out.println(e.getMessage());
+            }
+        }
+        updateButtons(buttons, board);
     }
 }

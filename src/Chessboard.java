@@ -86,6 +86,33 @@ public class Chessboard {
         }
     }
 
+    public boolean isPlayerOne(int x, int y){
+        if(board[x][y] == null) throw new IllegalStateException("not a player");
+        return board[x][y].isPlayerOne();
+    }
+
+    public boolean playerOne(int x, int y){
+        return isPlayerOne(x,y);
+    }
+    public String getType(int x, int y){
+        Piece piece = board[x][y];
+        if(piece instanceof Pawn){
+            return "Pawn";
+        } else if (piece instanceof King) {
+            return "King";
+        } else if (piece instanceof Bishop) {
+            return "Bishop";
+        } else if (piece instanceof Knight) {
+            return "Knight";
+        } else if (piece instanceof Rook){
+            return "Rook";
+        } else if (piece instanceof Queen) {
+            return "Queen";
+        }else {
+            return "";
+        }
+    }
+
     @Override
     public String toString() {
         String out = "";
