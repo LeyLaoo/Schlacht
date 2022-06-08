@@ -17,13 +17,13 @@ public class Rook extends Piece{
      */
     public void move(int newX, int newY, Piece[][] board) throws IllegalMoveException, IllegalStateException {
         int[] pos = getPos();
-        int xMoveDir = (pos[0] - newX) < 0 ? 1 : -1;
-        int yMoveDir = (pos[1] - newY) < 0 ? 1 : -1;
+        int xMoveDir = (pos[0] - newX) > 0 ? -1 : 1;
+        int yMoveDir = (pos[1] - newY) > 0 ? -1 : 1;
         if (pos[0] == newX) {
-            Piece.checkInLine(pos[0], pos[1], newY, xMoveDir, board);
+            Piece.checkInXLine(pos[0], pos[1], newY, yMoveDir, board);
             changePos(newX, newY);
         } else if( pos[1] == newY){
-            Piece.checkInLine(pos[0], pos[1], newX, yMoveDir, board);
+            Piece.checkInYLine(pos[1], pos[0], newX, xMoveDir, board);
             changePos(newX, newY);
         } else{
             throw new IllegalMoveException();

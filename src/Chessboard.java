@@ -57,12 +57,9 @@ public class Chessboard {
      */
     public void move(int currentX, int currentY, int newX, int newY) throws IllegalMoveException, IllegalStateException {
         Piece currentPiece = board[currentX][currentY];
-        if (currentPiece == null) {
-            return;
-        }
-        if ( board[newX][newY] instanceof Closed || currentPiece instanceof Closed) {
-            throw new IllegalStateException("Closed Place");
-        }
+        if(currentX == newX && currentY == newY) throw new IllegalStateException("not a move");
+        if (currentPiece == null) return;
+        if ( board[newX][newY] instanceof Closed || currentPiece instanceof Closed) throw new IllegalStateException("Closed Place");
         if (board[newX][newY] == null) {
             currentPiece.move(newX, newY, board);
             board[currentX][currentY] = null;
@@ -70,19 +67,17 @@ public class Chessboard {
 
         } else {
             if (currentPiece.isPlayerOne() != board[newX][newY].isPlayerOne()) {
-                if (currentPiece instanceof Pawn) {
-                    ((Pawn) currentPiece).kill(newX, newY);
-                } else {
-                    currentPiece.move(newX, newY, board);
-                }
+                if (currentPiece instanceof Pawn) ((Pawn) currentPiece).kill(newX, newY);
+                else currentPiece.move(newX, newY, board);
                 if(board[newX][newY] instanceof King){
-                    //Checkmate TODO
+                    //TODO Checkmate
                 }
                 board[currentX][currentY] = null;
                 board[newX][newY] = currentPiece;
-            } else {
-                throw new IllegalMoveException("Cant kill own Pawn");
-            }
+            } else throw new IllegalMoveException("Can't kill own Piece");
+        }
+        if(board[newX][newY] instanceof Pawn && ((newY == 7 && !board[newX][newY].isPlayerOne())||(newY == 0 && board[newX][newY].isPlayerOne()))){
+            board[newX][newY] = new Queen(newX, newY, board[newX][newY].isPlayerOne());
         }
     }
 
@@ -91,9 +86,6 @@ public class Chessboard {
         return board[x][y].isPlayerOne();
     }
 
-    public boolean playerOne(int x, int y){
-        return isPlayerOne(x,y);
-    }
     public String getType(int x, int y){
         Piece piece = board[x][y];
         if(piece instanceof Pawn){
@@ -108,6 +100,8 @@ public class Chessboard {
             return "Rook";
         } else if (piece instanceof Queen) {
             return "Queen";
+        }else if(piece instanceof Closed){
+            return "Closed";
         }else {
             return "";
         }

@@ -12,44 +12,12 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class Main extends Application {
     int firstX = -1, firstY = -1;
     boolean playerOneTurn = true;
 
     public static void main(String[] args) {
-        Chessboard board = new Chessboard();
-        System.out.println(board);
-        try {
-            board.move(1, 1, 1, 3);    //Pawn 2 move 2
-            System.out.println(board);
-            board.move(3, 1, 3, 2);    //Pawn 2 move 1
-            System.out.println(board);
-            board.move(7, 1, 7, 3);
-            System.out.println(board);
-            board.move(6, 6, 6, 4);
-            System.out.println(board);
-            board.move(7, 3, 6, 4);
-            System.out.println(board);
-            board.move(2, 0, 1, 2);
-            System.out.println(board);
-        } catch (IllegalMoveException e) {
-            System.out.println(e.getMessage());
-        }
-        Chessboard newboard = new Chessboard(3);
-      /*  System.out.println(newboard);
-        try {
-            for (int i = 0; i < 8; i++) {
-                newboard.move(i, 1, i, 2);
-                System.out.println(newboard);
-                newboard.move(i, 6, i, 5);
-                System.out.println(newboard);
-            }
-        } catch (IllegalMoveException | IllegalStateException e) {
-            System.out.println(e.getMessage());
-        }
-        System.out.println(newboard);*/
         launch(args);
         System.out.println("UwU");
     }
@@ -60,7 +28,7 @@ public class Main extends Application {
         stage.setMinWidth(600);
         stage.setMinHeight(600);
         stage.setResizable(false);
-        stage.initStyle(StageStyle.UNDECORATED);
+//        stage.initStyle(StageStyle.UNDECORATED);
 
 
         GridPane gridPane = new GridPane();
@@ -74,7 +42,7 @@ public class Main extends Application {
 
         Button[][] button = new Button[8][8];
 
-        Chessboard board = new Chessboard();
+        Chessboard board = new Chessboard(5);
 
         for (int i = 0; i < button.length; i++) {
             for (int j = 0; j < button.length; j++) {
@@ -84,8 +52,14 @@ public class Main extends Application {
 
                 if ((i + j) % 2 == 1) {
                     button[i][j].setStyle("-fx-background-color: DARKGREY");
+                    if(board.getType(i,j).equals("Closed")){
+                        button[i][j].setStyle("-fx-background-color: #e06969");
+                    }
                 } else {
                     button[i][j].setStyle("-fx-background-color: LIGHTGREY");
+                    if(board.getType(i,j).equals("Closed")){
+                        button[i][j].setStyle("-fx-background-color: #ff9f9f");
+                    }
                 }
                 int finalJ = j;
                 int finalI = i;
@@ -95,24 +69,18 @@ public class Main extends Application {
 
         updateButtons(button, board);
 
-
-        //GridPane.setValignment(button1, VPos.CENTER);
-        //GridPane.setHalignment(button4, HPos.CENTER);
-
         gridPane.setGridLinesVisible(true); // uncomment the line to see the grid
         stage.show();
     }
 
-    private Button[][] updateButtons(Button[][] button, Chessboard board) {
+    private void updateButtons(Button[][] button, Chessboard board) {
         for (int i = 0; i < button.length; i++) {
             for (int j = 0; j < button[i].length; j++) {
                 String path = ".\\Chesspieces\\";
                 try {
-                    if (board.isPlayerOne(i, j)) {
-                        path += "White\\White" + board.getType(i, j) + ".png";
-                    } else {
-                        path += "Black\\Black" + board.getType(i, j) + ".png";
-                    }
+                    if(board.getType(i,j).equals("Closed")) throw new IllegalStateException("Closed");
+                    if (board.isPlayerOne(i, j)) path += "White\\White" + board.getType(i, j) + ".png";
+                    else path += "Black\\Black" + board.getType(i, j) + ".png";
                     Image image = new Image(path);
                     ImageView view = new ImageView(image);
                     view.setFitHeight(50);
@@ -128,7 +96,6 @@ public class Main extends Application {
                 }
             }
         }
-        return button;
     }
 
     private void movePawn(int x, int y, Chessboard board, Button[][] buttons) {
@@ -147,12 +114,12 @@ public class Main extends Application {
             firstY = y;
         } else {
             try {
-                System.out.println(firstX + " " + firstY + " , " + x + " " + y);
+                System.out.println(firstX + " " + firstY + ", moving to " + x + " " + y);
                 board.move(firstX, firstY, x, y);
                 firstX = -1;
                 firstY = -1;
                 playerOneTurn = !playerOneTurn;
-            } catch (IllegalMoveException | IllegalArgumentException e ) {
+            } catch (IllegalMoveException | IllegalStateException | IllegalArgumentException e ) {
                 firstX = -1;
                 firstY = -1;
                 System.out.println(e.getMessage());

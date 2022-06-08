@@ -20,11 +20,8 @@ public class Bishop extends Piece{
         if(Math.abs(pos[0] - newX) == Math.abs(pos[1]-newY)){
             int xMoveDir = (pos[0] - newX) < 0 ? 1 : -1;
             int yMoveDir = (pos[1] - newY) < 0 ? 1 : -1;
-            for(int i = 1; i < Math.abs(pos[0] - newX); i++) {
-                if(board[pos[0]+i * xMoveDir][pos[1]+i * yMoveDir] != null){
-                    throw new IllegalStateException("Something is in the way at "+ (pos[0]+i * xMoveDir) + "|"+(pos[1]+i * yMoveDir));
-                }
-            }
+            Piece.checkInDiagonal(pos[0], pos[1], newX, xMoveDir, yMoveDir, board);
+            changePos(newX, newY);
         }else{
             throw new IllegalMoveException("Illegal move - not diagonal");
         }
