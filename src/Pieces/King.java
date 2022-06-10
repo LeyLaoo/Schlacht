@@ -16,7 +16,7 @@ public class King extends Piece{
      */
     public void move(int newX, int newY, Piece[][] board) throws IllegalMoveException{
         int[] pos = getPos();
-        if(pos[0] - newX >= 1 && pos[0] - newX <= -1 && pos[1] - newY >= 1 && pos[1] - newY <= -1){
+        if(pos[0] - newX <= 1 && pos[0] - newX >= -1 && pos[1] - newY <= 1 && pos[1] - newY >= -1){
             changePos(newX, newY);
         }else{
             throw new IllegalMoveException("Illegal move");

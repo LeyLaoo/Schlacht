@@ -19,12 +19,12 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
-        System.out.println("UwU");
+        System.out.println("Game closed");
     }
 
 
     public void start(Stage stage) {
-        stage.setTitle("Schachbrett");
+        stage.setTitle("Chessboard");
         stage.setMinWidth(600);
         stage.setMinHeight(600);
         stage.setResizable(false);
@@ -58,7 +58,7 @@ public class Main extends Application {
                 } else {
                     button[i][j].setStyle("-fx-background-color: LIGHTGREY");
                     if(board.getType(i,j).equals("Closed")){
-                        button[i][j].setStyle("-fx-background-color: #ff9f9f");
+                        button[i][j].setStyle("-fx-background-color: #ef8383");
                     }
                 }
                 int finalJ = j;
@@ -114,12 +114,18 @@ public class Main extends Application {
             firstY = y;
         } else {
             try {
-                System.out.println(firstX + " " + firstY + ", moving to " + x + " " + y);
                 board.move(firstX, firstY, x, y);
+                System.out.println(firstX + " " + firstY + ", moving to " + x + " " + y);
                 firstX = -1;
                 firstY = -1;
                 playerOneTurn = !playerOneTurn;
             } catch (IllegalMoveException | IllegalStateException | IllegalArgumentException e ) {
+                if(e.getMessage().equals("Change")){
+                    firstX = x;
+                    firstY = y;
+                    updateButtons(buttons, board);
+                    return;
+                }
                 firstX = -1;
                 firstY = -1;
                 System.out.println(e.getMessage());

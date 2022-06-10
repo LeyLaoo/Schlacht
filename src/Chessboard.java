@@ -74,7 +74,7 @@ public class Chessboard {
                 }
                 board[currentX][currentY] = null;
                 board[newX][newY] = currentPiece;
-            } else throw new IllegalMoveException("Can't kill own Piece");
+            } else throw new IllegalMoveException("Change");
         }
         if(board[newX][newY] instanceof Pawn && ((newY == 7 && !board[newX][newY].isPlayerOne())||(newY == 0 && board[newX][newY].isPlayerOne()))){
             board[newX][newY] = new Queen(newX, newY, board[newX][newY].isPlayerOne());
