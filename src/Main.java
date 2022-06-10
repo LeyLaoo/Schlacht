@@ -17,6 +17,10 @@ public class Main extends Application {
     int firstX = -1, firstY = -1;
     boolean playerOneTurn = true;
 
+//    Javafx library has to be added first
+//
+//    VM options for the run configuration
+//    --module-path "[Path of the lib directory of javafx]" --add-modules javafx.controls,javafx.fxml
     public static void main(String[] args) {
         launch(args);
         System.out.println("Game closed");
