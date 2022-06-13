@@ -136,5 +136,4 @@ public class Main extends Application {
             }
         }
         updateButtons(buttons, board);
-    }
-}
+    }}
