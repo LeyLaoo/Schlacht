@@ -19,7 +19,7 @@ public class Knight extends Piece {
         int[] pos = getPos();
         if (((pos[1] + 2 == newY || pos[1] - 2 == newY) && (pos[0] + 1 == newX || pos[0] - 1 == newX)) || ((pos[0] + 2 == newX || pos[0] - 2 == newX) && (pos[1] + 1 == newY || pos[1] - 1 == newY))) {  //TODO other direction
             changePos(newX, newY);
-        } else throw new IllegalMoveException();
+        } else throw new IllegalMoveException("Not Allowed");
     }
 
     @Override

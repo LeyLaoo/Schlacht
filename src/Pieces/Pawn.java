@@ -19,13 +19,13 @@ public class Pawn extends Piece {
             if (pos[1] - 1 == newY && (pos[0] + 1 == newX || pos[0] - 1 == newX)) {
                 changePos(newX, newY);
             } else {
-                throw new IllegalMoveException();
+                throw new IllegalMoveException("Illegal move");
             }
         } else {
             if (pos[1] + 1 == newY && (pos[0] + 1 == newX || pos[0] - 1 == newX)) {
                 changePos(newX, newY);
             } else {
-                throw new IllegalMoveException();
+                throw new IllegalMoveException("Illegal move");
             }
         }
     }
