@@ -94,6 +94,7 @@ public class Main extends Application {
         for (int i = 0; i < button.length; i++) {
             for (int j = 0; j < button[i].length; j++) {
                 String path = ".\\Chesspieces\\";
+//                String path = ".\\Chesspieces2\\";   //when other pieces should be used
                 try {
                     if (board.getType(i, j).equals("Closed")) throw new IllegalStateException("Closed");
                     if (board.isPlayerOne(i, j)) path += "White\\White" + board.getType(i, j) + ".png";
