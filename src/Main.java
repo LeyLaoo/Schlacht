@@ -1,8 +1,10 @@
 import Pieces.IllegalMoveException;
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
@@ -93,7 +95,7 @@ public class Main extends Application {
     private void updateButtons(Button[][] button, Chessboard board) {
         for (int i = 0; i < button.length; i++) {
             for (int j = 0; j < button[i].length; j++) {
-                String path = ".\\Chesspieces\\";
+                String path = ".\\Chesspieces2\\";
 //                String path = ".\\Chesspieces2\\";   //when other pieces should be used
                 try {
                     if (board.getType(i, j).equals("Closed")) throw new IllegalStateException("Closed");
@@ -166,8 +168,18 @@ public class Main extends Application {
      * @param stage current stage
      */
     public static void checkmate(Stage stage) {
-        TextArea checkmate = new TextArea("checkmate");
+        Group checkmate = new Group();
         Scene scene = new Scene(checkmate, 600, 600);
+
+        Label text = new Label("CHECKMATE");
+        text.setStyle("-fx-font-size: 32");
+        text.setStyle("-fx-text-alignment: CENTER");
+        text.setStyle("-fx-color-label-visible: RED");
+        checkmate.setStyle("-fx-background-color: GREEN");
+
+
+        checkmate.getChildren().addAll(text);
+
         stage.setScene(scene);
     }
 }
