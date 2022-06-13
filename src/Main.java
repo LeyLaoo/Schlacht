@@ -3,6 +3,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,7 +18,7 @@ public class Main extends Application {
     int firstX = -1, firstY = -1;
     boolean playerOneTurn = true;
 
-//    Javafx library has to be added first
+    //    Javafx library has to be added first
 //
 //    VM options for the run configuration
 //    --module-path "[Path of the lib directory of javafx]" --add-modules javafx.controls,javafx.fxml
@@ -25,7 +26,6 @@ public class Main extends Application {
         launch(args);
         System.out.println("Game closed");
     }
-
 
     public void start(Stage stage) {
         stage.setTitle("Chessboard");
@@ -56,18 +56,26 @@ public class Main extends Application {
 
                 if ((i + j) % 2 == 1) {
                     button[i][j].setStyle("-fx-background-color: DARKGREY");
-                    if(board.getType(i,j).equals("Closed")){
+                    if (board.getType(i, j).equals("Closed")) {
                         button[i][j].setStyle("-fx-background-color: #e06969");
                     }
                 } else {
                     button[i][j].setStyle("-fx-background-color: LIGHTGREY");
-                    if(board.getType(i,j).equals("Closed")){
+                    if (board.getType(i, j).equals("Closed")) {
                         button[i][j].setStyle("-fx-background-color: #ef8383");
                     }
                 }
                 int finalJ = j;
                 int finalI = i;
-                button[i][j].setOnAction(actionEvent -> movePawn(finalI, finalJ, board, button));
+                button[i][j].setOnAction(actionEvent -> {
+                    try {
+                        movePawn(finalI, finalJ, board, button);
+                    } catch (InterruptedException e) {
+                        if (e.getMessage().equals("Checkmate")) {
+                            checkmate(stage);
+                        }
+                    }
+                });
             }
         }
 
@@ -82,7 +90,7 @@ public class Main extends Application {
             for (int j = 0; j < button[i].length; j++) {
                 String path = ".\\Chesspieces\\";
                 try {
-                    if(board.getType(i,j).equals("Closed")) throw new IllegalStateException("Closed");
+                    if (board.getType(i, j).equals("Closed")) throw new IllegalStateException("Closed");
                     if (board.isPlayerOne(i, j)) path += "White\\White" + board.getType(i, j) + ".png";
                     else path += "Black\\Black" + board.getType(i, j) + ".png";
                     Image image = new Image(path);
@@ -93,16 +101,16 @@ public class Main extends Application {
                 } catch (IllegalStateException e) {
                     button[i][j].setGraphic(null);
                 }
-                if(firstX == i && firstY == j){
+                if (firstX == i && firstY == j) {
                     button[i][j].setEffect(new Glow(1));
-                }else{
+                } else {
                     button[i][j].setEffect(null);
                 }
             }
         }
     }
 
-    private void movePawn(int x, int y, Chessboard board, Button[][] buttons) {
+    private void movePawn(int x, int y, Chessboard board, Button[][] buttons) throws InterruptedException {
         if (firstX == -1) {
             try {
                 if (board.isPlayerOne(x, y) != playerOneTurn) {
@@ -123,8 +131,8 @@ public class Main extends Application {
                 firstX = -1;
                 firstY = -1;
                 playerOneTurn = !playerOneTurn;
-            } catch (IllegalMoveException | IllegalStateException | IllegalArgumentException e ) {
-                if(e.getMessage().equals("Change")){
+            } catch (IllegalMoveException | IllegalStateException | IllegalArgumentException e) {
+                if (e.getMessage().equals("Change")) {
                     firstX = x;
                     firstY = y;
                     updateButtons(buttons, board);
@@ -136,4 +144,11 @@ public class Main extends Application {
             }
         }
         updateButtons(buttons, board);
-    }}
+    }
+
+    public static void checkmate(Stage stage) {
+        TextArea checkmate = new TextArea("checkmate");
+        Scene scene = new Scene(checkmate, 600, 600);
+        stage.setScene(scene);
+    }
+}

@@ -9,24 +9,24 @@ public class Chessboard {
      */
     Chessboard() {
         board[0][0] = new Rook(0, 0, false);
-        board[1][0] = new Bishop(1, 0, false);
-        board[2][0] = new Knight(2, 0, false);
+        board[1][0] = new Knight(1, 0, false);
+        board[2][0] = new Bishop(2, 0, false);
         board[3][0] = new Queen(3, 0, false);
         board[4][0] = new King(4, 0, false);
-        board[5][0] = new Knight(5, 0, false);
-        board[6][0] = new Bishop(6, 0, false);
+        board[5][0] = new Bishop(5, 0, false);
+        board[6][0] = new Knight(6, 0, false);
         board[7][0] = new Rook(7, 0, false);
         for (int i = 0; i < 8; i++) {
             board[i][1] = new Pawn(i, 1, false);
         }
 
         board[0][7] = new Rook(0, 7, true);
-        board[1][7] = new Bishop(1, 7, true);
-        board[2][7] = new Knight(2, 7, true);
+        board[1][7] = new Knight(1, 7, true);
+        board[2][7] = new Bishop(2, 7, true);
         board[3][7] = new Queen(3, 7, true);
         board[4][7] = new King(4, 7, true);
-        board[5][7] = new Knight(5, 7, true);
-        board[6][7] = new Bishop(6, 7, true);
+        board[5][7] = new Bishop(5, 7, true);
+        board[6][7] = new Knight(6, 7, true);
         board[7][7] = new Rook(7, 7, true);
         for (int i = 0; i < 8; i++) {
             board[i][6] = new Pawn(i, 6, true);
@@ -55,7 +55,7 @@ public class Chessboard {
      * @throws IllegalStateException    throws this exception if the move is blocked my another pawn
      * @author Uhlig Bastian
      */
-    public void move(int currentX, int currentY, int newX, int newY) throws IllegalMoveException, IllegalStateException {
+    public void move(int currentX, int currentY, int newX, int newY) throws IllegalMoveException, IllegalStateException, InterruptedException {
         Piece currentPiece = board[currentX][currentY];
         if(currentX == newX && currentY == newY) throw new IllegalStateException("not a move");
         if (currentPiece == null) return;
@@ -70,7 +70,7 @@ public class Chessboard {
                 if (currentPiece instanceof Pawn) ((Pawn) currentPiece).kill(newX, newY);
                 else currentPiece.move(newX, newY, board);
                 if(board[newX][newY] instanceof King){
-                    //TODO Checkmate
+                    throw new InterruptedException("Checkmate");
                 }
                 board[currentX][currentY] = null;
                 board[newX][newY] = currentPiece;
