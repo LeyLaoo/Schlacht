@@ -5,7 +5,6 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,6 +16,9 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+
+    private static final int numOfBlockedFields = 4;
+    static Chessboard board;
     int firstX = -1, firstY = -1;
     boolean playerOneTurn = true;
 
@@ -47,8 +49,7 @@ public class Main extends Application {
         gridPane.setPadding(new Insets(10)); // top, right, bottom, left
 
         Button[][] button = new Button[8][8];
-
-        Chessboard board = new Chessboard(5);
+        board = new Chessboard(numOfBlockedFields);
 
         for (int i = 0; i < button.length; i++) {
             for (int j = 0; j < button.length; j++) {
@@ -95,8 +96,8 @@ public class Main extends Application {
     private void updateButtons(Button[][] button, Chessboard board) {
         for (int i = 0; i < button.length; i++) {
             for (int j = 0; j < button[i].length; j++) {
-                String path = ".\\Chesspieces2\\";
-//                String path = ".\\Chesspieces2\\";   //when other pieces should be used
+//                String path = ".\\Chesspieces\\";
+                String path = ".\\Chesspieces2\\";   //when other pieces should be used
                 try {
                     if (board.getType(i, j).equals("Closed")) throw new IllegalStateException("Closed");
                     if (board.isPlayerOne(i, j)) path += "White\\White" + board.getType(i, j) + ".png";
@@ -110,7 +111,7 @@ public class Main extends Application {
                     button[i][j].setGraphic(null);
                 }
                 if (firstX == i && firstY == j) {
-                    button[i][j].setEffect(new Glow(1));
+                    button[i][j].setEffect(new Glow(0.75));
                 } else {
                     button[i][j].setEffect(null);
                 }
@@ -167,7 +168,7 @@ public class Main extends Application {
      * methode called when a player lost
      * @param stage current stage
      */
-    public static void checkmate(Stage stage) {
+    public void checkmate(Stage stage) {
         Group checkmate = new Group();
         Scene scene = new Scene(checkmate, 600, 600);
 
@@ -176,7 +177,6 @@ public class Main extends Application {
         text.setStyle("-fx-text-alignment: CENTER");
         text.setStyle("-fx-color-label-visible: RED");
         checkmate.setStyle("-fx-background-color: GREEN");
-
 
         checkmate.getChildren().addAll(text);
 
